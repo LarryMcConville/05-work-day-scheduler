@@ -36,7 +36,7 @@ function renderCalendar() {
     divHour.appendTo(divRow);
     textArea.appendTo(divRow);
     saveButton.appendTo(divRow);
-    divRow.appendTo("#hour-parent");
+    divRow.appendTo("#row-parent");
   }
 }
 
