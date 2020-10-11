@@ -1,37 +1,30 @@
 //Global Variables.
 var currentDay = moment().format("dddd MMMM Do YYYY");
-var currentHour = moment().format("h");
+var currentHour24 = moment().format("HH");
 
-businessHours = [7, 8, 9, 10, 11, 12, 1, 2, 3, 4];
+businessHours = ["07", "08", "09", "10", "11", "12", "13", "14", "15", "16"];
 
-//Get Local Storage
+//Load calendar events when application starts.
+getCalendarEvents();
 
-//Set Local Storage
-
-//Functions
 init();
 
 function init() {
   $("#currentDay").text(currentDay);
   renderCalendar();
-  console.log(currentDay);
 }
 
 function renderCalendar() {
-  //loop through business hours to build calendar elements
-  //each row shall have the `hour` + `the event` + `save button`
-
   for (var i = 0; i < businessHours.length; i++) {
-    //put moment wrapper here
-    var hourOfDay = businessHours[i];
-    var hourTense = getTimeCategory(hourOfDay);
+    var hourInArray = businessHours[i];
+    var hourToDisplay = moment(businessHours[i], "hh").format("LT");
+
+    var hourTense = getTimeCategory(hourInArray);
 
     var divRow = $("<div>").attr("class", "row");
-    var divHour = $("<div>").attr("class", "col-1 hour").text(hourOfDay);
-    //Template literal
-    //https://stackoverflow.com/questions/3304014/how-to-interpolate-variables-in-strings-in-javascript-without-concatenation
-    var textArea = $("<textarea>").attr("class", `col-9 textarea ${hourTense}`);
-    var saveButton = $("<button>").attr("class", "col-1 saveBtn");
+    var divHour = $("<div>").attr("class", "col-1 hour").text(hourToDisplay);
+    var textArea = $("<textarea>").attr("class", `col-10 textarea ${hourTense}`);
+    var saveButton = $("<button>").attr("class", "col-1 saveBtn fas fa-save fa-lg");
 
     divHour.appendTo(divRow);
     textArea.appendTo(divRow);
@@ -43,17 +36,28 @@ function renderCalendar() {
 function getTimeCategory(hour) {
   //https://stackoverflow.com/questions/36197031/how-to-use-moment-js-to-check-whether-the-current-time-is-between-2-times
   var hourTense = "";
-  console.log(currentHour);
+
   console.log(hour);
-  //if hour < current hour hourTense = ".past"
-  hourTense = "row present";
-  //else if hour = current hour hourTense = "".present"
-  //hourTense = "".future"
+  console.log(currentHour24);
+
+  if (hour < currentHour24) {
+    hourTense = "past";
+  }
+  if (hour === currentHour24) {
+    hourTense = "present";
+  }
+  if (hour > currentHour24) {
+    hourTense = "future";
+  }
+
   return hourTense;
 }
 
-function getCalendarEvent() {}
+function getCalendarEvents() {}
 
-function saveCalendarEvent() {}
+function saveCalendarEvents() {}
 
 //Event Listeners
+$(".saveBtn").click(function () {
+  alert("Save Button Clicked!!");
+});
