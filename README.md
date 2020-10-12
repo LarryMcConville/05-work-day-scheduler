@@ -57,4 +57,4 @@ The application html was scanned with the [Markup Validation Service](https://va
 
 ## Sources Referenced
 
-[w3schools](https://www.w3schools.com/html/) `|`
+[w3schools](https://www.w3schools.com/html/) `|` [stack**overflow**](//https://stackoverflow.com/questions/3304014/how-to-interpolate-variables-in-strings-in-javascript-without-concatenation)
