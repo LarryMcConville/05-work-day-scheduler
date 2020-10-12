@@ -9,32 +9,31 @@ init();
 
 function init() {
   $("#currentDay").text(currentDay);
-  renderCalendar();
+  renderSchedule();
 
   //Load calendar events when application starts.
-  getCalendarEvents();
+  getSchedule();
 }
 
-function renderCalendar() {
+function renderSchedule() {
   for (var i = 0; i < businessHours.length; i++) {
     var hourInArray = businessHours[i];
     var hourToDisplay = moment(businessHours[i], "hh").format("LT");
 
-    var hourTense = getTimeCategory(hourInArray);
+    var hourTense = getHourTense(hourInArray);
 
     var divRow = $("<div>").attr("class", "row time-block");
     var divHour = $("<div>").attr("class", "col-1 hour").text(hourToDisplay);
-    var textArea = $("<textarea>").attr("class", `col-10 textarea description ${hourTense}`).attr("id", `${businessHours[i]}`);
+    var textArea = $("<textarea>").attr("class", `col-10 textarea description ${hourTense}`).attr("id", businessHours[i]);
     var saveButton = $("<button>").attr("class", "col-1 saveBtn").attr("button-index", businessHours[i]);
 
     $(saveButton).append($("<i>").attr("class", "fas fa-save fa-2x"));
-
     $(divRow).append(divHour, textArea, saveButton);
     $("#row-parent").append(divRow);
   }
 }
 
-function getTimeCategory(hour) {
+function getHourTense(hour) {
   var hourTense = "";
 
   if (hour < currentHour24) {
@@ -50,33 +49,25 @@ function getTimeCategory(hour) {
   return hourTense;
 }
 
-function getCalendarEvents() {
+function getSchedule() {
   var storedSchedule = JSON.parse(localStorage.getItem("schedule"));
 
   if (storedSchedule !== null) {
     schedule = storedSchedule;
-    //create loop to set textarea.textContent = to the stored schedule
-    //where textarea.attr() = schedule.key
 
+    //loop through stored schedules and update html elements for hours having saved events.
     for (var i = 0; i < schedule.length; i++) {
-      var id = "#" + schedule[i].hour;
-
-      $(id).val(schedule[i].event);
+      $("#" + schedule[i].hour).val(schedule[i].event);
     }
   }
 }
 
-function saveCalendarEvents(buttonIndex) {
-  //we will search for the textarea having the same id as the buttonIndex.
-  var id = "#" + buttonIndex;
-
-  //return the textarea.val() where the textarea id = buttonIndex.
+function saveSchedule(buttonIndex) {
+  //search for the textarea having the same id as the buttonIndex and capture the entered text.
   var newSchedule = {
     hour: buttonIndex,
-    event: $(id).val(),
+    event: $("#" + buttonIndex).val(),
   };
-
-  console.log(newSchedule);
 
   schedule.push(newSchedule);
   localStorage.setItem("schedule", JSON.stringify(schedule));
@@ -87,5 +78,6 @@ $(".saveBtn").click(function (event) {
   event.preventDefault();
   var buttonIndex = $(this).attr("button-index");
 
-  saveCalendarEvents(buttonIndex);
+  saveSchedule(buttonIndex);
+  getSchedule();
 });
