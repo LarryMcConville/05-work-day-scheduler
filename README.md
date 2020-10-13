@@ -1,4 +1,4 @@
-# Project Name (Deployed Application url)
+# [**05-WORK-DAY-SCHEDULER**](https://larrymcconville.github.io/05-work-day-scheduler/) :link:
 
 ## Project Goal
 
@@ -99,7 +99,8 @@ The following animation demonstrates the application functionality:
 
 ## Validation
 
-The application html was scanned with the [Markup Validation Service](https://validator.w3.org/).
+The application HTML was scanned with the [Markup Validation Service](https://validator.w3.org/).
+![HTML Validation](./images/html-validator.png)
 
 ## Sources Referenced
 
